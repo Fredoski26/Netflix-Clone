@@ -7,9 +7,19 @@
 
 import UIKit
 
+
+enum Sections: Int {
+    case TrendingMovies = 0
+    case TrendingTv = 1
+    case Popular = 2
+    case Upcoming = 3
+    case TopRated = 4
+}
+
+
 class HomeViewController: UIViewController {
     
-    let sectionTitles: [String] = ["Trending Movies","Popular","Trending Tv","Upcoming Movies","Top rated"]
+    let sectionTitles: [String] = ["Trending Movies","Trending Tv","Popular","Upcoming Movies","Top rated"]
     
     private let homeFeedTable: UITableView = {
         let table = UITableView(frame: .zero, style: .grouped)
@@ -33,12 +43,15 @@ class HomeViewController: UIViewController {
     
         homeFeedTable.tableHeaderView = headerView
         // Do any additional setup after loading the view.
+        //fetchData()
     }
     
     private func configureNabar(){
-        var image = UIImage(named: "netflix")
+        var image = UIImage(named: "Netflix2")
         image = image?.withRenderingMode(.alwaysOriginal)
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: image, style: .done, target: self, action: nil)
+        
+       
         
         navigationItem.rightBarButtonItems = [
             UIBarButtonItem(image:UIImage(systemName: "person"), style: .done, target: self,action: nil),
@@ -52,6 +65,50 @@ class HomeViewController: UIViewController {
         super.viewDidLayoutSubviews()
         homeFeedTable.frame = view.bounds
     }
+    
+   
+    
+//    private func fetchData(){
+//        ApiCaller.shared.getTrendingMovie{results in switch results{
+//        case.success(let movies):
+//            print(movies)
+//        case.failure(let error):
+//            print(error)
+//        }}
+//
+//        ApiCaller.shared.getTrendingTvs{results in switch results{
+//        case.success(let tv):
+//            print(tv)
+//        case.failure(let error):
+//            print(error)
+//        }}
+//
+//
+//        ApiCaller.shared.getMovieUpcoming{results in switch results{
+//        case.success(let upcoming):
+//            print(upcoming)
+//        case.failure(let error):
+//            print(error)
+//        }}
+//
+//
+//        ApiCaller.shared.getMoviePopular{results in switch results{
+//        case.success(let popular):
+//            print(popular)
+//        case.failure(let error):
+//            print(error)
+//        }}
+//
+//
+//
+//
+//        ApiCaller.shared.getMovieTopRated{results in switch results{
+//        case.success(let toprated):
+//            print(toprated)
+//        case.failure(let error):
+//            print(error)
+//        }}
+//    }
 
 }
 
@@ -68,6 +125,62 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: CollectionViewTableViewCell.identifier, for: indexPath) as? CollectionViewTableViewCell else{
             return UITableViewCell()
         }
+        
+        switch indexPath.section{
+        case Sections.TrendingMovies.rawValue:
+            ApiCaller.shared.getTrendingMovie{results in switch results{
+            case.success(let title):
+                cell.configure(with: title)
+            case.failure(let error):
+                print(error.localizedDescription)
+                
+            }}
+            
+        case Sections.TrendingTv.rawValue:
+            ApiCaller.shared.getTrendingTvs{results in switch results{
+            case.success(let title):
+                cell.configure(with: title)
+            case.failure(let error):
+                print(error.localizedDescription)
+                
+            }}
+            
+        case Sections.Popular.rawValue:
+            ApiCaller.shared.getMoviePopular{results in switch results{
+            case.success(let title):
+                cell.configure(with: title)
+            case.failure(let error):
+                print(error.localizedDescription)
+                
+            }}
+            
+            
+            
+        case Sections.Upcoming.rawValue:
+            ApiCaller.shared.getMovieUpcoming{results in switch results{
+            case.success(let title):
+                cell.configure(with: title)
+            case.failure(let error):
+                print(error.localizedDescription)
+                
+            }}
+            
+            
+            
+            
+        case Sections.TopRated.rawValue:
+            ApiCaller.shared.getMovieTopRated{results in switch results{
+            case.success(let title):
+                cell.configure(with: title)
+            case.failure(let error):
+                print(error.localizedDescription)
+                
+            }}
+        
+        default:
+            return UITableViewCell()
+        }
+        
         return cell
     }
     
@@ -84,7 +197,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         header.textLabel?.font = .systemFont(ofSize: 18, weight: .semibold)
         header.textLabel?.frame = CGRect(x: header.bounds.origin.x + 20, y: header.bounds.origin.y, width: 100, height: header.bounds.height)
         header.textLabel?.textColor = .white
-        header.textLabel?.text = header.textLabel?.text?.lowercased()
+        header.textLabel?.text = header.textLabel?.text?.capitalizationfilter()
         
     }
     
