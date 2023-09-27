@@ -7,11 +7,19 @@
 
 import UIKit
 
+protocol CollectionViewTableViewCellDelegate: AnyObject {
+    func collectionViewTableViewDidTapCell(_ cell: CollectionViewTableViewCell, viewModel: TitlePreviewViewModel)
+}
+
 class CollectionViewTableViewCell: UITableViewCell {
+    
+   
 
  static let identifier = "CollectionViewTableViewCell"
     
-    private var title: [Title] = [Title]()
+    weak var delegate: CollectionViewTableViewCellDelegate?
+    
+    public var title: [Title] = [Title]()
     
     
     private let collectionView: UICollectionView = {
@@ -74,12 +82,32 @@ extension CollectionViewTableViewCell: UICollectionViewDelegate, UICollectionVie
     }
     
     
-    
-    
-    
-    
-    
-    
-    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        collectionView.deselectItem(at: indexPath, animated: true)
+        
+        let titles = title[indexPath.row]
+        guard let titleName = titles.original_title ?? titles.original_name else {
+            return
+        }
+        ApiCaller.shared.getMovie(with: titleName + "trailers") { [weak self] result in switch result {
+        case.success(let videoElement):
+            let titles = self?.title[indexPath.row]
+            guard let titleOverview = titles?.overview else {
+                return
+            }
+            guard let strongSelf = self else{
+                return
+            }
+            let viewModel = TitlePreviewViewModel(title: titleName, youubeview: videoElement, titleOverview: titleOverview)
+            self?.delegate?.collectionViewTableViewDidTapCell(strongSelf, viewModel: viewModel)
+           // print(videoElement.id)
+            
+        case.failure(let error):
+            print(error.localizedDescription)
+        }
+            
+        }
+        
+    }
 
 }

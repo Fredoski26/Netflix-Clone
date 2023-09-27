@@ -14,6 +14,9 @@ class DownloadsViewController: UIViewController {
 
         // Do any additional setup after loading the view.
         view.backgroundColor = .systemBackground
+        title = "Download"
+        navigationController?.navigationBar.prefersLargeTitles = true
+        navigationController?.navigationBar.topItem?.largeTitleDisplayMode = .always
     }
     
 
