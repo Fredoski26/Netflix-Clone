@@ -133,6 +133,7 @@ extension CollectionViewTableViewCell: UICollectionViewDelegate, UICollectionVie
         {[weak self] _ in
             let downloadAction = UIAction(title: "Download", subtitle: nil, image: nil, identifier: nil, discoverabilityTitle: nil, state: .off)
             { _ in  print("Press me")
+                
                 self?.downloadTitleAt(indexPath: indexPaths[0] )  }
             return UIMenu(title: "", image: nil, identifier: nil, options: .displayInline, children: [downloadAction])
         }

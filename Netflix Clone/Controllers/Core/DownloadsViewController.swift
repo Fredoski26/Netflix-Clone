@@ -9,12 +9,16 @@ import UIKit
 
 class DownloadsViewController: UIViewController {
     
+    
+    
     private var titles: [TitleItem] = [TitleItem]()
     private let downloadTable: UITableView = {
         let table = UITableView()
         table.register(TitleTableViewCell.self, forCellReuseIdentifier: TitleTableViewCell.identifier)
         return table
     }()
+    
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,11 +27,15 @@ class DownloadsViewController: UIViewController {
         view.backgroundColor = .black
         title = "Download"
         view.addSubview(downloadTable)
+        
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationController?.navigationBar.topItem?.largeTitleDisplayMode = .always
         downloadTable.dataSource = self
         downloadTable.delegate = self
         fetchlocalStorageForDownload()
+        
+        
+        
         NotificationCenter.default.addObserver(forName: NSNotification.Name("downloaded"), object: nil, queue: nil){
             _ in self.fetchlocalStorageForDownload()
         }
@@ -78,11 +86,22 @@ extension DownloadsViewController: UITableViewDelegate, UITableViewDataSource{
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+       
         switch editingStyle{
+            
         case .delete:
             DatapersistenceManager.share.deleteTitleWith(model: titles[indexPath.row]){ [weak self]
                 result in switch result {
                 case .success():
+                    
+                    // create the alert
+                    let alert = UIAlertController(title: "Deletion", message: "Successfully deleted.", preferredStyle: UIAlertController.Style.alert)
+
+                    // add an action (button)
+                    alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
+
+                    // show the alert
+                    self!.present(alert, animated: true, completion: nil)
                     print("Deleted")
                     DispatchQueue.main.async{
                     }
