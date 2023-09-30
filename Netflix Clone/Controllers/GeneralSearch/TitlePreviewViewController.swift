@@ -10,17 +10,19 @@ import WebKit
 
 class TitlePreviewViewController: UIViewController {
     
+    
+    
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .systemFont(ofSize: 22, weight: .bold)
+        label.font = .systemFont(ofSize: 20, weight: .bold)
         label.text = "Harry Potter"
         return label
     }()
     
     private let overviewLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 18, weight: .regular)
+        label.font = .systemFont(ofSize: 17, weight: .regular)
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
         label.text = "The best movie ever to watch"
@@ -39,9 +41,15 @@ class TitlePreviewViewController: UIViewController {
         return button
     }()
     
+    //private let webView: WKWebView = WKWebView()
     private let webView: WKWebView = {
         let webView = WKWebView()
-        webView.translatesAutoresizingMaskIntoConstraints = true
+        webView.translatesAutoresizingMaskIntoConstraints = false
+        
+       
+//        webView.setNeedsLayout()
+//        webView.layoutIfNeeded()
+       // webView.translatesAutoresizingMaskIntoConstraints = true
         return webView
     }()
 
@@ -52,7 +60,7 @@ class TitlePreviewViewController: UIViewController {
         view.addSubview(titleLabel)
         view.addSubview(overviewLabel)
         view.addSubview(downloadButton)
-
+        
         configureConstraint()
         // Do any additional setup after loading the view.
     }
@@ -62,17 +70,24 @@ class TitlePreviewViewController: UIViewController {
             webView.topAnchor.constraint(equalTo: view.topAnchor, constant: 50),
             webView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             webView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            webView.heightAnchor.constraint(equalToConstant: 250)
+            webView.heightAnchor.constraint(equalToConstant: 300)
             
         ]
         let titleLabelConstraints = [
             titleLabel.topAnchor.constraint(equalTo: webView.bottomAnchor, constant: 20),
             titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
+            titleLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+           // titleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+
+            
         ]
         
         let overviewConstraints = [
             overviewLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 15),
             overviewLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            overviewLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+           // overviewLabel.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: <#T##CGFloat#>)
+
         ]
         
         let downloadButton = [

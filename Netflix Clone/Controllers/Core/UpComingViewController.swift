@@ -21,14 +21,25 @@ class UpComingViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         title = "Upcoming"
+        
+//        let textAttributes: [NSAttributedString.Key: Any] = [
+//                .foregroundColor: UIColor.white // Set the text color to white
+//                // You can also set other attributes like font, shadow, etc. if needed
+//            ]
+//
+//        navigationController?.navigationBar.titleTextAttributes = textAttributes
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationController?.navigationBar.topItem?.largeTitleDisplayMode = .always
-
+        
+        
         view.addSubview(upcomingTable)
         upcomingTable.delegate = self
         upcomingTable.dataSource = self
         fetchUpcomingData()
+        upcomingTable.backgroundColor = UIColor.black
         // Do any additional setup after loading the view.
+        
+        
     }
 
     override func viewDidLayoutSubviews() {
@@ -71,5 +82,30 @@ extension UpComingViewController:UITableViewDelegate, UITableViewDataSource{
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 145
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        
+        let title = titles[indexPath.row]
+        
+        guard let titleName = title.original_title ?? title.original_name else {
+            return
+        }
+        
+        ApiCaller.shared.getMovie(with: titleName){[weak self] results in
+            switch results {
+            case.success(let videoElement):
+                DispatchQueue.main.async {
+                    let vc = TitlePreviewViewController()
+                      vc.configure(with: TitlePreviewViewModel(title: titleName, youubeview: videoElement, titleOverview: title.overview ?? ""))
+                      self?.navigationController?.pushViewController(vc, animated: true)
+                }
+              
+        case.failure(let error):
+            print(error.localizedDescription)
+        }
+            
+        }
     }
 }

@@ -34,11 +34,14 @@ class CollectionViewTableViewCell: UITableViewCell {
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?){
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        contentView.backgroundColor = .systemPink
+        //contentView.backgroundColor = UIColor.black
         contentView.addSubview(collectionView)
         
         collectionView.delegate = self
         collectionView.dataSource = self
+        
+        //        Initialized black colour 
+        collectionView.backgroundColor = UIColor.black
     }
     
     required init?(coder: NSCoder) {
@@ -58,15 +61,25 @@ class CollectionViewTableViewCell: UITableViewCell {
         }
     }
     
-   
+    public func downloadTitleAt(indexPath: IndexPath){
+        DatapersistenceManager.share.downloadTitlewith(model: title[indexPath.row] ){ result in switch
+            result {
+            case.success():
+                NotificationCenter.default.post(name: NSNotification.Name("downloaded") ,object: nil)
+                print("download to database")
+                
+            case.failure(let error):
+                print(error.localizedDescription)
+            }}
+    }
    
 }
 
 extension CollectionViewTableViewCell: UICollectionViewDelegate, UICollectionViewDataSource{
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-//        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath)
-//        cell.backgroundColor = .green
-//        return cell
+        //        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath)
+        //        cell.backgroundColor = .green
+        //        return cell
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TitleCollectionViewCell.identifier, for:  indexPath) as? TitleCollectionViewCell else {
             return UICollectionViewCell()
         }
@@ -74,6 +87,7 @@ extension CollectionViewTableViewCell: UICollectionViewDelegate, UICollectionVie
             return UICollectionViewCell()
         }
         cell.configure(with: model)
+        
         return cell
     }
     
@@ -100,14 +114,49 @@ extension CollectionViewTableViewCell: UICollectionViewDelegate, UICollectionVie
             }
             let viewModel = TitlePreviewViewModel(title: titleName, youubeview: videoElement, titleOverview: titleOverview)
             self?.delegate?.collectionViewTableViewDidTapCell(strongSelf, viewModel: viewModel)
-           // print(videoElement.id)
+            // print(videoElement.id)
             
         case.failure(let error):
             print(error.localizedDescription)
+            
         }
             
         }
         
     }
+    
+    
+    //    Action for pop up download
+    
+    func collectionView(_ collectionView: UICollectionView, contextMenuConfigurationForItemsAt indexPaths: [IndexPath], point: CGPoint) -> UIContextMenuConfiguration? {
+        let config = UIContextMenuConfiguration(identifier: nil, previewProvider: nil )
+        {[weak self] _ in
+            let downloadAction = UIAction(title: "Download", subtitle: nil, image: nil, identifier: nil, discoverabilityTitle: nil, state: .off)
+            { _ in  print("Press me")
+                self?.downloadTitleAt(indexPath: indexPaths[0] )  }
+            return UIMenu(title: "", image: nil, identifier: nil, options: .displayInline, children: [downloadAction])
+        }
+        
+        
+        return config
+    }
+    
+    
+    
+    
+//    private func collectionView(_ collectionView: UICollectionView, contextMenuConfigurationForItemsAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
+//        
+//        let config = UIContextMenuConfiguration(identifier: nil, previewProvider: nil )
+//        {[weak self] _ in
+//            let downloadAction = UIAction(title: "Download", subtitle: nil, image: nil, identifier: nil, discoverabilityTitle: nil, state: .off)
+//            { _ in  print("Press me")
+//                self?.downloadTitleAt(indexPath: IndexPath)  }
+//            return UIMenu(title: "", image: nil, identifier: nil, options: .displayInline, children: [downloadAction])
+//        }
+//       
+//        
+//        return config
+//    }
 
 }
+

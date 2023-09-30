@@ -40,6 +40,10 @@ class TitleTableViewCell: UITableViewCell {
         contentView.addSubview(titleLabel)
         contentView.addSubview(playTitleButton)
         
+//        Initialized black colour
+        contentView.backgroundColor = UIColor.black
+        titleLabel.textColor = UIColor.white
+        
         applyConstraints()
     }
     
@@ -55,11 +59,16 @@ class TitleTableViewCell: UITableViewCell {
         ]
         let titleLabelConstraints = [
             titleLabel.leadingAnchor.constraint(equalTo: titlesPosterUIImageView.trailingAnchor, constant: 20),
-            titleLabel.centerYAnchor.constraint(equalTo:contentView.centerYAnchor)
+            titleLabel.centerYAnchor.constraint(equalTo:contentView.centerYAnchor),
+            titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -50),
+
+
         ]
         let playTitleButtonConstraints = [
             playTitleButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
-            playTitleButton.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
+            playTitleButton.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            //playTitleButton.trailingAnchor.constraint(equalTo: titleLabel.trailingAnchor),
+
         ]
         NSLayoutConstraint.activate(titlesPosterUIImageViewConstraints)
         NSLayoutConstraint.activate(titleLabelConstraints)

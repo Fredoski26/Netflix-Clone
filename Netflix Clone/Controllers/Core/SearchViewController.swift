@@ -37,6 +37,7 @@ class SearchViewController: UIViewController {
         DiscoverTable.delegate = self
         DiscoverTable.dataSource = self
         navigationItem.searchController = searchController
+        DiscoverTable.backgroundColor = UIColor.black
        // navigationController?.navigationBar.tintColor = .white
        fetchDiscoverMovie()
         
@@ -87,10 +88,36 @@ extension SearchViewController:UITableViewDelegate, UITableViewDataSource{
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 140
     }
+    
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        
+        let title = titles[indexPath.row]
+        
+        guard let titleName = title.original_title ?? title.original_name else {
+            return
+        }
+        
+        ApiCaller.shared.getMovie(with: titleName){[weak self] results in
+            switch results {
+            case.success(let videoElement):
+                DispatchQueue.main.async {
+                    let vc = TitlePreviewViewController()
+                      vc.configure(with: TitlePreviewViewModel(title: titleName, youubeview: videoElement, titleOverview: title.overview ?? ""))
+                      self?.navigationController?.pushViewController(vc, animated: true)
+                }
+              
+        case.failure(let error):
+            print(error.localizedDescription)
+        }
+            
+        }
+    }
    
 }
 
-extension SearchViewController: UISearchResultsUpdating{
+extension SearchViewController: UISearchResultsUpdating, SearchResultViewControllerDelegate{
     func updateSearchResults(for searchController: UISearchController) {
         let searchBar = searchController.searchBar
         
@@ -98,6 +125,8 @@ extension SearchViewController: UISearchResultsUpdating{
               let resultsController = searchController.searchResultsController as? SearchResultViewController else {
             return
         }
+        
+        resultsController.delegate = self
         
         ApiCaller.shared.search(with: query){ result in DispatchQueue.main.async {
             switch result{
@@ -108,5 +137,14 @@ extension SearchViewController: UISearchResultsUpdating{
                 print(error.localizedDescription)
             }
         } }
+    }
+    
+    func searchResultViewControllerDidTapItem(_ viewModel: TitlePreviewViewModel) {
+        DispatchQueue.main.async { [weak self] in
+            let vc = TitlePreviewViewController()
+            vc.configure(with: viewModel)
+            self?.navigationController?.pushViewController(vc, animated: true)
+        }
+        
     }
 }

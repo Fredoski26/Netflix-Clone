@@ -31,6 +31,8 @@
 		67626CE02AC35B04006F4C49 /* youtubeRepsonse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67626CDF2AC35B04006F4C49 /* youtubeRepsonse.swift */; };
 		67626CE22AC35F5C006F4C49 /* TitlePreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67626CE12AC35F5C006F4C49 /* TitlePreviewViewController.swift */; };
 		67626CE42AC36CCF006F4C49 /* TitlePreviewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67626CE32AC36CCF006F4C49 /* TitlePreviewViewModel.swift */; };
+		6786DB672AC70B41007C693E /* CloneModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 6786DB652AC70B41007C693E /* CloneModel.xcdatamodeld */; };
+		6786DB692AC70E40007C693E /* DatapersistenceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6786DB682AC70E40007C693E /* DatapersistenceManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -58,6 +60,8 @@
 		67626CDF2AC35B04006F4C49 /* youtubeRepsonse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = youtubeRepsonse.swift; sourceTree = "<group>"; };
 		67626CE12AC35F5C006F4C49 /* TitlePreviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitlePreviewViewController.swift; sourceTree = "<group>"; };
 		67626CE32AC36CCF006F4C49 /* TitlePreviewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitlePreviewViewModel.swift; sourceTree = "<group>"; };
+		6786DB662AC70B41007C693E /* CloneModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CloneModel.xcdatamodel; sourceTree = "<group>"; };
+		6786DB682AC70E40007C693E /* DatapersistenceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatapersistenceManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -104,6 +108,7 @@
 				6707E3E22A9C977900B88F4F /* Assets.xcassets */,
 				6707E3E42A9C977900B88F4F /* LaunchScreen.storyboard */,
 				6707E3E72A9C977900B88F4F /* Info.plist */,
+				6786DB652AC70B41007C693E /* CloneModel.xcdatamodeld */,
 			);
 			path = "Netflix Clone";
 			sourceTree = "<group>";
@@ -159,6 +164,7 @@
 			isa = PBXGroup;
 			children = (
 				67626CBC2ABF2707006F4C49 /* ApiCalller.swift */,
+				6786DB682AC70E40007C693E /* DatapersistenceManager.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -265,10 +271,12 @@
 				67626CCB2AC19482006F4C49 /* TitleCollectionViewCell.swift in Sources */,
 				6707E3DE2A9C977800B88F4F /* MainTabBarViewController.swift in Sources */,
 				671948C22AA8BCF400DB0673 /* CollectionViewTableViewCell.swift in Sources */,
+				6786DB692AC70E40007C693E /* DatapersistenceManager.swift in Sources */,
 				671948C42AA8CE9700DB0673 /* HeroHeaderUIView.swift in Sources */,
 				6707E3F52A9CA40B00B88F4F /* DownloadsViewController.swift in Sources */,
 				6707E3DA2A9C977800B88F4F /* AppDelegate.swift in Sources */,
 				67626CC12ABFAB65006F4C49 /* Extensions.swift in Sources */,
+				6786DB672AC70B41007C693E /* CloneModel.xcdatamodeld in Sources */,
 				67626CE22AC35F5C006F4C49 /* TitlePreviewViewController.swift in Sources */,
 				67626CBD2ABF2707006F4C49 /* ApiCalller.swift in Sources */,
 				67626CD82AC2CE6B006F4C49 /* TitleTableViewCell.swift in Sources */,
@@ -416,6 +424,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 2NP5NSVDR7;
@@ -432,6 +442,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.FredrickObarafor.Netflix-Clone";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -443,6 +454,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 2NP5NSVDR7;
@@ -459,6 +472,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.FredrickObarafor.Netflix-Clone";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -511,6 +525,19 @@
 			productName = SDWebImageMapKit;
 		};
 /* End XCSwiftPackageProductDependency section */
+
+/* Begin XCVersionGroup section */
+		6786DB652AC70B41007C693E /* CloneModel.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				6786DB662AC70B41007C693E /* CloneModel.xcdatamodel */,
+			);
+			currentVersion = 6786DB662AC70B41007C693E /* CloneModel.xcdatamodel */;
+			path = CloneModel.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 6707E3CE2A9C977800B88F4F /* Project object */;
 }
